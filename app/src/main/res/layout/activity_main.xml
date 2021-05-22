@@ -43,7 +43,7 @@
 
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/tvCatHair"
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:layout_marginBottom="80dp"
@@ -58,35 +58,35 @@
             app:layout_constraintStart_toStartOf="@+id/imageView" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/tvCatFace"
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:fontFamily="@font/rubik_medium"
             android:gravity="center"
             android:rotation="270"
             android:text="Face"
-            android:textColor="#373131"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/textView2"
-            app:layout_constraintEnd_toEndOf="@+id/textView2"
-            app:layout_constraintStart_toStartOf="@+id/textView2" />
+            android:textColor="@color/selected_cat"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/tvCatHair"
+            app:layout_constraintEnd_toEndOf="@+id/tvCatHair"
+            app:layout_constraintStart_toStartOf="@+id/tvCatHair" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/tvCatBody"
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:fontFamily="@font/rubik_medium"
             android:gravity="center"
             android:rotation="270"
             android:text="Body"
-            android:textColor="#005B1B"
+            android:textColor="@color/normal_cat"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/textView3"
-            app:layout_constraintEnd_toEndOf="@+id/textView3"
-            app:layout_constraintStart_toStartOf="@+id/textView3" />
+            app:layout_constraintBottom_toTopOf="@+id/tvCatFace"
+            app:layout_constraintEnd_toEndOf="@+id/tvCatFace"
+            app:layout_constraintStart_toStartOf="@+id/tvCatFace" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/tvCatSkin"
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:fontFamily="@font/rubik_medium"
@@ -95,9 +95,9 @@
             android:text="Skin"
             android:textColor="#373131"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/textView4"
-            app:layout_constraintEnd_toEndOf="@+id/textView4"
-            app:layout_constraintStart_toStartOf="@+id/textView4" />
+            app:layout_constraintBottom_toTopOf="@+id/tvCatBody"
+            app:layout_constraintEnd_toEndOf="@+id/tvCatBody"
+            app:layout_constraintStart_toStartOf="@+id/tvCatBody" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView

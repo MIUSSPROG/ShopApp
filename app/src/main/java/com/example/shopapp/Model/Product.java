@@ -1,58 +1,103 @@
 package com.example.shopapp.Model;
 
-public class Product {
-    Integer productid;
-    String productName;
-    String productQty;
-    String productPrice;
-    Integer imageUrl;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-    public Product(Integer productid, String productName, String productQty, String productPrice, Integer imageUrl) {
+public class Product implements Parcelable {
+    String name;
+    Float price;
+    Integer size;
+    String imageURL;
 
-        this.productid = productid;
-        this.productName = productName;
-        this.productQty = productQty;
-        this.productPrice = productPrice;
-        this.imageUrl = imageUrl;
+    public Product() {
     }
 
-    public String getProductName() {
-        return productName;
+    public Product(String name, Float price, Integer size, String imageURL) {
+        this.name = name;
+        this.price = price;
+        this.size = size;
+        this.imageURL = imageURL;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    protected Product(Parcel in) {
+        name = in.readString();
+        if (in.readByte() == 0) {
+            price = null;
+        } else {
+            price = in.readFloat();
+        }
+        if (in.readByte() == 0) {
+            size = null;
+        } else {
+            size = in.readInt();
+        }
+        imageURL = in.readString();
     }
 
-    public String getProductQty() {
-        return productQty;
+    public static final Creator<Product> CREATOR = new Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel in) {
+            return new Product(in);
+        }
+
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
+
+    public String getName() {
+        return name;
     }
 
-    public void setProductQty(String productQty) {
-        this.productQty = productQty;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getProductPrice() {
-        return productPrice;
+    public Float getPrice() {
+        return price;
     }
 
-    public void setProductPrice(String productPrice) {
-        this.productPrice = productPrice;
+    public void setPrice(Float price) {
+        this.price = price;
     }
 
-    public Integer getImageUrl() {
-        return imageUrl;
+    public Integer getSize() {
+        return size;
     }
 
-    public void setImageUrl(Integer imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setSize(Integer size) {
+        this.size = size;
     }
 
-    public Integer getProductid() {
-        return productid;
+    public String getImageURL() {
+        return imageURL;
     }
 
-    public void setProductid(Integer productid) {
-        this.productid = productid;
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        if (price == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeFloat(price);
+        }
+        if (size == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(size);
+        }
+        dest.writeString(imageURL);
     }
 }

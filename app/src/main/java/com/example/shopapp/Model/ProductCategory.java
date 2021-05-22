@@ -4,6 +4,9 @@ public class ProductCategory {
     Integer productId;
     String productName;
 
+    public ProductCategory() {
+    }
+
     public ProductCategory(Integer productId, String productName) {
         this.productId = productId;
         this.productName = productName;

@@ -7,12 +7,11 @@
 
     <ImageView
         android:id="@+id/prod_image"
-        android:layout_width="250dp"
-        android:layout_height="500dp"
+        android:layout_width="200dp"
+        android:layout_height="250dp"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
         android:transitionName="image"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,8 +22,8 @@
         android:id="@+id/imageView6"
         android:layout_width="39dp"
         android:layout_height="42dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_heart" />
@@ -83,17 +82,16 @@
         android:id="@+id/prod_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="270dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="30dp"
         android:fontFamily="@font/rubik_bold"
         android:text="Japanese Cherry Blossom"
+        android:textAlignment="textStart"
         android:textColor="@android:color/background_dark"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+        app:layout_constraintTop_toBottomOf="@+id/prod_image" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

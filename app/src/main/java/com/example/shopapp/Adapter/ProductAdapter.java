@@ -14,6 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.shopapp.Model.Product;
 import com.example.shopapp.ProductDetail;
 import com.example.shopapp.R;
@@ -25,8 +27,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     Context context;
     List<Product> productsList;
 
-    public ProductAdapter(Context context, List<Product> productsList) {
+    public ProductAdapter(Context context) {
         this.context = context;
+    }
+
+    public void setProductsList(List<Product> productsList) {
         this.productsList = productsList;
     }
 
@@ -39,16 +44,23 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     @Override
     public void onBindViewHolder(@NonNull ProductAdapter.ProductViewHolder holder, int position) {
-        holder.prodImage.setImageResource(productsList.get(position).getImageUrl());
-        holder.prodName.setText(productsList.get(position).getProductName());
-        holder.prodQty.setText(productsList.get(position).getProductQty());
-        holder.prodPrice.setText(productsList.get(position).getProductPrice());
+
+        Product product = productsList.get(position);
+
+        Glide.with(context)
+                .load(product.getImageURL())
+                .fitCenter()
+                .centerCrop()
+                .into(holder.prodImage);
+        holder.prodName.setText(product.getName());
+        holder.prodQty.setText( String.valueOf(product.getSize()));
+        holder.prodPrice.setText( String.valueOf(product.getPrice()));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(context, ProductDetail.class);
-
+                i.putExtra("productInfo", product);
                 Pair[] pairs = new Pair[1];
                 pairs[0] = new Pair<View, String>(holder.prodImage, "image");
                 ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation((Activity) context, pairs);
