@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
 import com.example.shopapp.Adapter.ProductAdapter;
 import com.example.shopapp.Adapter.ProductCategoryAdapter;
 import com.example.shopapp.Model.Product;
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     ProductCategoryAdapter productCategoryAdapter;
     ProductAdapter productAdapter;
     List<Product> products;
+    SharedPreferences sharedPref;
 
 //    private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
@@ -40,6 +44,25 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        sharedPref = getSharedPreferences("userInfo", MODE_PRIVATE);
+        String userName = sharedPref.getString("name", "");
+        String userAvatarURL = sharedPref.getString("imageURL", "");
+
+        if(userName.isEmpty()){
+            binding.tvWelcome.append(", гость!");
+        }
+        else{
+            binding.tvWelcome.append(", " + userName + "!");
+            Glide.with(this).load(userAvatarURL).into(binding.imgvUserLogo);
+        }
+
+        binding.tvWelcomeExtraInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, SignIn.class));
+            }
+        });
 
         List<ProductCategory> productCategoryList = new ArrayList<>();
         productCategoryList.add(new ProductCategory(1, "Trending"));

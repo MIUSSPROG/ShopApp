@@ -8,15 +8,17 @@
 
     <TextView
         android:id="@+id/tvWelcome"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
-        android:fontFamily="@font/rubik_bold"
-        android:text="Hello, Emma!"
+        android:layout_marginEnd="20dp"
         android:elevation="10dp"
+        android:fontFamily="@font/rubik_bold"
+        android:text="Привет"
         android:textColor="@android:color/background_dark"
         android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/imgvUserLogo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -101,26 +103,26 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/tvWelcomeExtraInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/rubik"
-        android:text="Let's find your favourate body care product"
+        android:text="Войти"
         android:textColor="@color/black"
-        android:textSize="12sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/tvWelcome"
         app:layout_constraintTop_toBottomOf="@+id/tvWelcome" />
 
-    <ImageView
-        android:id="@+id/imageView2"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imgvUserLogo"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/profile" />
+        android:src="@drawable/guest"/>
 
     <ImageView
         android:id="@+id/imageView3"
@@ -129,7 +131,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         app:layout_constraintStart_toEndOf="@+id/constraintLayout"
-        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/tvWelcomeExtraInfo"
         app:srcCompat="@drawable/ic_filter" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -166,7 +168,6 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/cart_button_bg"
-        app:backgroundTint="@null"
         android:drawableRight="@drawable/ic_cart"
         android:fontFamily="@font/rubik_medium"
         android:padding="8dp"
@@ -174,9 +175,10 @@
         android:text="Your Cart is empty"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
+        app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/constraintLayout"
         app:layout_constraintTop_toBottomOf="@+id/prodItemRecycler"
         app:layout_constraintVertical_bias="0.0" />
