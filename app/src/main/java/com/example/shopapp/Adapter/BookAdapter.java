@@ -15,54 +15,53 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.shopapp.Model.Product;
-import com.example.shopapp.ProductDetail;
+import com.example.shopapp.Model.Book;
+import com.example.shopapp.BookDetail;
 import com.example.shopapp.R;
 
 import java.util.List;
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
+public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ProductViewHolder> {
 
     Context context;
-    List<Product> productsList;
+    List<Book> productsList;
 
-    public ProductAdapter(Context context) {
+    public BookAdapter(Context context) {
         this.context = context;
     }
 
-    public void setProductsList(List<Product> productsList) {
+    public void setProductsList(List<Book> productsList) {
         this.productsList = productsList;
     }
 
     @NonNull
     @Override
-    public ProductAdapter.ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public BookAdapter.ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.products_row_item, parent, false);
         return new ProductViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProductAdapter.ProductViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BookAdapter.ProductViewHolder holder, int position) {
 
-        Product product = productsList.get(position);
+        Book book = productsList.get(position);
 
         Glide.with(context)
-                .load(product.getImageURL())
+                .load(book.getImageURL())
                 .fitCenter()
                 .centerCrop()
-                .into(holder.prodImage);
-        holder.prodName.setText(product.getName());
-        holder.prodQty.setText( String.valueOf(product.getSize()));
-        holder.prodPrice.setText( String.valueOf(product.getPrice()));
-
+                .into(holder.bookImage);
+        holder.bookName.setText(book.getName());
+        holder.bookAuthor.setText(book.getAuthor());
+        holder.bookYear.setText(String.valueOf(book.getYear()));
+        holder.bookPrice.setText(String.valueOf(book.getPrice()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(context, ProductDetail.class);
-                i.putExtra("productInfo", product);
+                Intent i = new Intent(context, BookDetail.class);
+                i.putExtra("bookInfo", book);
                 Pair[] pairs = new Pair[1];
-                pairs[0] = new Pair<View, String>(holder.prodImage, "image");
+                pairs[0] = new Pair<View, String>(holder.bookImage, "image");
                 ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation((Activity) context, pairs);
                 context.startActivity(i, activityOptions.toBundle());
             }
@@ -81,18 +80,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     public static final class ProductViewHolder extends RecyclerView.ViewHolder{
 
-        ImageView prodImage;
-        TextView prodName, prodQty, prodPrice;
+        ImageView bookImage;
+        TextView bookAuthor, bookName, bookDesc, bookYear, bookPrice;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            prodImage = itemView.findViewById(R.id.prod_image);
-            prodName = itemView.findViewById(R.id.prod_name);
-            prodPrice = itemView.findViewById(R.id.prod_price);
-            prodQty = itemView.findViewById(R.id.prod_qty);
-
-
+            bookImage = itemView.findViewById(R.id.book_image);
+            bookAuthor = itemView.findViewById(R.id.book_author);
+            bookPrice = itemView.findViewById(R.id.book_price);
+            bookYear = itemView.findViewById(R.id.book_year);
+            bookName = itemView.findViewById(R.id.book_name);
         }
     }
 }

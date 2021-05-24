@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,65 +45,69 @@
 
 
         <TextView
-            android:id="@+id/tvCatHair"
-            android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:layout_marginBottom="80dp"
+            android:id="@+id/tvCatAdventure"
+            android:layout_width="80dp"
+            android:layout_height="150dp"
+            android:layout_marginBottom="20dp"
             android:fontFamily="@font/rubik_medium"
             android:gravity="center"
             android:rotation="270"
-            android:text="Hair"
+            android:text="Приключения"
             android:textColor="#373131"
-            android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/imageView"
-            app:layout_constraintEnd_toEndOf="@+id/imageView"
-            app:layout_constraintStart_toStartOf="@+id/imageView" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/tvCatFace"
+            android:id="@+id/tvCatDetectives"
             android:layout_width="0dp"
-            android:layout_height="100dp"
+            android:layout_height="150dp"
             android:fontFamily="@font/rubik_medium"
             android:gravity="center"
             android:rotation="270"
-            android:text="Face"
+            android:text="Детективы"
             android:textColor="@color/selected_cat"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/tvCatHair"
-            app:layout_constraintEnd_toEndOf="@+id/tvCatHair"
-            app:layout_constraintStart_toStartOf="@+id/tvCatHair" />
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/tvCatAdventure"
+            app:layout_constraintEnd_toEndOf="@+id/tvCatAdventure"
+            app:layout_constraintStart_toStartOf="@+id/tvCatAdventure" />
 
         <TextView
-            android:id="@+id/tvCatBody"
+            android:id="@+id/tvCatFiction"
             android:layout_width="0dp"
-            android:layout_height="100dp"
+            android:layout_height="110dp"
             android:fontFamily="@font/rubik_medium"
             android:gravity="center"
             android:rotation="270"
-            android:text="Body"
+            android:text="Фантастика"
             android:textColor="@color/normal_cat"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/tvCatFace"
-            app:layout_constraintEnd_toEndOf="@+id/tvCatFace"
-            app:layout_constraintStart_toStartOf="@+id/tvCatFace" />
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/tvCatDetectives"
+            app:layout_constraintEnd_toEndOf="@+id/tvCatDetectives"
+            app:layout_constraintStart_toStartOf="@+id/tvCatDetectives" />
 
         <TextView
-            android:id="@+id/tvCatSkin"
+            android:id="@+id/tvCatNovels"
             android:layout_width="0dp"
-            android:layout_height="100dp"
+            android:layout_height="110dp"
             android:fontFamily="@font/rubik_medium"
             android:gravity="center"
             android:rotation="270"
-            android:text="Skin"
+            android:text="Романы"
             android:textColor="#373131"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/tvCatBody"
-            app:layout_constraintEnd_toEndOf="@+id/tvCatBody"
-            app:layout_constraintStart_toStartOf="@+id/tvCatBody" />
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/tvCatFiction"
+            app:layout_constraintEnd_toEndOf="@+id/tvCatFiction"
+            app:layout_constraintStart_toStartOf="@+id/tvCatFiction" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/tvWelcomeExtraInfo"
+        android:id="@+id/tvWelcomeSignInUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -128,10 +132,10 @@
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="32dp"
         app:layout_constraintStart_toEndOf="@+id/constraintLayout"
-        app:layout_constraintTop_toBottomOf="@+id/tvWelcomeExtraInfo"
+        app:layout_constraintTop_toBottomOf="@+id/tvWelcomeSignInUp"
         app:srcCompat="@drawable/ic_filter" />
 
     <androidx.recyclerview.widget.RecyclerView

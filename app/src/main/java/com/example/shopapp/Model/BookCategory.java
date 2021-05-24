@@ -1,13 +1,13 @@
 package com.example.shopapp.Model;
 
-public class ProductCategory {
+public class BookCategory {
     Integer productId;
     String productName;
 
-    public ProductCategory() {
+    public BookCategory() {
     }
 
-    public ProductCategory(Integer productId, String productName) {
+    public BookCategory(Integer productId, String productName) {
         this.productId = productId;
         this.productName = productName;
     }

@@ -2,8 +2,6 @@ package com.example.shopapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,10 +9,10 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
-import com.example.shopapp.Adapter.ProductAdapter;
-import com.example.shopapp.Adapter.ProductCategoryAdapter;
-import com.example.shopapp.Model.Product;
-import com.example.shopapp.Model.ProductCategory;
+import com.example.shopapp.Adapter.BookAdapter;
+import com.example.shopapp.Adapter.BookCategoryAdapter;
+import com.example.shopapp.Model.Book;
+import com.example.shopapp.Model.BookCategory;
 import com.example.shopapp.databinding.ActivityMainBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,13 +28,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     ActivityMainBinding binding;
-    ProductCategoryAdapter productCategoryAdapter;
-    ProductAdapter productAdapter;
-    List<Product> products;
+    BookCategoryAdapter bookCategoryAdapter;
+    BookAdapter bookAdapter;
+    List<Book> books;
     SharedPreferences sharedPref;
-
-//    private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
+    String userName, userAvatarURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,101 +43,125 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         sharedPref = getSharedPreferences("userInfo", MODE_PRIVATE);
-        String userName = sharedPref.getString("name", "");
-        String userAvatarURL = sharedPref.getString("imageURL", "");
+        userName = sharedPref.getString("name", "");
+        userAvatarURL = sharedPref.getString("imageURL", "");
 
         if(userName.isEmpty()){
             binding.tvWelcome.append(", гость!");
         }
         else{
+            binding.tvWelcomeSignInUp.setText("Выйти");
             binding.tvWelcome.append(", " + userName + "!");
             Glide.with(this).load(userAvatarURL).into(binding.imgvUserLogo);
         }
 
-        binding.tvWelcomeExtraInfo.setOnClickListener(new View.OnClickListener() {
+        binding.tvWelcomeSignInUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, SignIn.class));
+                if(userName.isEmpty()) {
+                    startActivity(new Intent(MainActivity.this, SignIn.class));
+                }
+                else{
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("name","");
+                    editor.putString("imageURL","");
+                    editor.apply();
+
+                    binding.tvWelcome.setText("Привет, гость!");
+                    binding.imgvUserLogo.setImageDrawable(null);
+                    binding.tvWelcomeSignInUp.setText("Войти");
+                }
             }
         });
 
-        List<ProductCategory> productCategoryList = new ArrayList<>();
-        productCategoryList.add(new ProductCategory(1, "Trending"));
-        productCategoryList.add(new ProductCategory(2, "Most Popular"));
-        productCategoryList.add(new ProductCategory(3, "All Body Products"));
-        productCategoryList.add(new ProductCategory(4, "Skin Care"));
-        productCategoryList.add(new ProductCategory(5, "Hair Care"));
-        productCategoryList.add(new ProductCategory(6, "Make Up"));
-        productCategoryList.add(new ProductCategory(7, "Fragrance"));
+        List<BookCategory> bookCategoryList = new ArrayList<>();
+        bookCategoryList.add(new BookCategory(1, "Новинки 2020"));
+        bookCategoryList.add(new BookCategory(2, "Самые популярные"));
+        bookCategoryList.add(new BookCategory(3, "Бестселлеры"));
+        bookCategoryList.add(new BookCategory(4, "Открытие 2020"));
+        bookCategoryList.add(new BookCategory(5, "Дебют"));
 
-        productCategoryAdapter = new ProductCategoryAdapter(this, productCategoryList);
-        binding.catRecycler.setAdapter(productCategoryAdapter);
+        bookCategoryAdapter = new BookCategoryAdapter(this, bookCategoryList);
+        binding.catRecycler.setAdapter(bookCategoryAdapter);
 
-        products = new ArrayList<>();
-        productAdapter = new ProductAdapter(this);
-        binding.prodItemRecycler.setAdapter(productAdapter);
+        books = new ArrayList<>();
+        bookAdapter = new BookAdapter(this);
+        binding.prodItemRecycler.setAdapter(bookAdapter);
 
-        displayProductsByCat("Hair");
+        displayProductsByCat("Detectives");
 
-        binding.tvCatHair.setOnClickListener(new View.OnClickListener() {
+        binding.tvCatFiction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayProductsByCat("Hair");
+                displayProductsByCat("Fiction");
             }
         });
 
-        binding.tvCatFace.setOnClickListener(new View.OnClickListener() {
+        binding.tvCatNovels.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayProductsByCat("Face");
+                displayProductsByCat("Novels");
             }
         });
 
+        binding.tvCatDetectives.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayProductsByCat("Detectives");
+            }
+        });
+
+        binding.tvCatAdventure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayProductsByCat("Adventure");
+            }
+        });
 
     }
 
     public void displayProductsByCat(String cat){
 
-        binding.tvCatFace.setTextColor( getResources().getColor(R.color.normal_cat));
-        binding.tvCatFace.setTextSize(16);
-        binding.tvCatHair.setTextColor( getResources().getColor(R.color.normal_cat));
-        binding.tvCatHair.setTextSize(16);
-        binding.tvCatBody.setTextColor( getResources().getColor(R.color.normal_cat));
-        binding.tvCatBody.setTextSize(16);
-        binding.tvCatSkin.setTextColor( getResources().getColor(R.color.normal_cat));
-        binding.tvCatSkin.setTextSize(16);
+        binding.tvCatAdventure.setTextColor( getResources().getColor(R.color.normal_cat));
+        binding.tvCatAdventure.setTextSize(14);
+        binding.tvCatDetectives.setTextColor( getResources().getColor(R.color.normal_cat));
+        binding.tvCatDetectives.setTextSize(14);
+        binding.tvCatFiction.setTextColor( getResources().getColor(R.color.normal_cat));
+        binding.tvCatFiction.setTextSize(14);
+        binding.tvCatNovels.setTextColor( getResources().getColor(R.color.normal_cat));
+        binding.tvCatNovels.setTextSize(14);
 
         switch (cat){
-            case "Hair":
-                binding.tvCatHair.setTextColor( getResources().getColor(R.color.selected_cat));
-                binding.tvCatHair.setTextSize(18);
+            case "Приключения":
+                binding.tvCatAdventure.setTextColor( getResources().getColor(R.color.selected_cat));
+                binding.tvCatAdventure.setTextSize(16);
                 break;
-            case "Body":
-                binding.tvCatBody.setTextColor( getResources().getColor(R.color.selected_cat));
-                binding.tvCatBody.setTextSize(18);
+            case "Детективы":
+                binding.tvCatDetectives.setTextColor( getResources().getColor(R.color.selected_cat));
+                binding.tvCatDetectives.setTextSize(16);
                 break;
-            case "Face":
-                binding.tvCatFace.setTextColor( getResources().getColor(R.color.selected_cat));
-                binding.tvCatFace.setTextSize(18);
+            case "Фантастика":
+                binding.tvCatFiction.setTextColor( getResources().getColor(R.color.selected_cat));
+                binding.tvCatFiction.setTextSize(16);
                 break;
-            case "Skin":
-                binding.tvCatSkin.setTextColor( getResources().getColor(R.color.selected_cat));
-                binding.tvCatSkin.setTextSize(18);
+            case "Романы":
+                binding.tvCatNovels.setTextColor( getResources().getColor(R.color.selected_cat));
+                binding.tvCatNovels.setTextSize(16);
                 break;
         }
 
-        products.clear();
+        books.clear();
 
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference(cat);
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Books").child(cat);
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    Product product = dataSnapshot.getValue(Product.class);
-                    products.add(product);
+                    Book book = dataSnapshot.getValue(Book.class);
+                    books.add(book);
                 }
-                productAdapter.setProductsList(products);
-                productAdapter.notifyDataSetChanged();
+                bookAdapter.setProductsList(books);
+                bookAdapter.notifyDataSetChanged();
             }
 
             @Override

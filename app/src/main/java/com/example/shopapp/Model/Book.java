@@ -3,23 +3,29 @@ package com.example.shopapp.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Product implements Parcelable {
+public class Book implements Parcelable {
+    String author;
+    String description;
     String name;
     Float price;
-    Integer size;
+    Integer year;
     String imageURL;
 
-    public Product() {
+    public Book() {
     }
 
-    public Product(String name, Float price, Integer size, String imageURL) {
+    public Book(String author, String description, String name, Float price, Integer year, String imageURL) {
+        this.author = author;
+        this.description = description;
         this.name = name;
         this.price = price;
-        this.size = size;
+        this.year = year;
         this.imageURL = imageURL;
     }
 
-    protected Product(Parcel in) {
+    protected Book(Parcel in) {
+        author = in.readString();
+        description = in.readString();
         name = in.readString();
         if (in.readByte() == 0) {
             price = null;
@@ -27,24 +33,40 @@ public class Product implements Parcelable {
             price = in.readFloat();
         }
         if (in.readByte() == 0) {
-            size = null;
+            year = null;
         } else {
-            size = in.readInt();
+            year = in.readInt();
         }
         imageURL = in.readString();
     }
 
-    public static final Creator<Product> CREATOR = new Creator<Product>() {
+    public static final Creator<Book> CREATOR = new Creator<Book>() {
         @Override
-        public Product createFromParcel(Parcel in) {
-            return new Product(in);
+        public Book createFromParcel(Parcel in) {
+            return new Book(in);
         }
 
         @Override
-        public Product[] newArray(int size) {
-            return new Product[size];
+        public Book[] newArray(int size) {
+            return new Book[size];
         }
     };
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public String getName() {
         return name;
@@ -62,12 +84,12 @@ public class Product implements Parcelable {
         this.price = price;
     }
 
-    public Integer getSize() {
-        return size;
+    public Integer getYear() {
+        return year;
     }
 
-    public void setSize(Integer size) {
-        this.size = size;
+    public void setYear(Integer year) {
+        this.year = year;
     }
 
     public String getImageURL() {
@@ -85,6 +107,8 @@ public class Product implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(author);
+        dest.writeString(description);
         dest.writeString(name);
         if (price == null) {
             dest.writeByte((byte) 0);
@@ -92,11 +116,11 @@ public class Product implements Parcelable {
             dest.writeByte((byte) 1);
             dest.writeFloat(price);
         }
-        if (size == null) {
+        if (year == null) {
             dest.writeByte((byte) 0);
         } else {
             dest.writeByte((byte) 1);
-            dest.writeInt(size);
+            dest.writeInt(year);
         }
         dest.writeString(imageURL);
     }

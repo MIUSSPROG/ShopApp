@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
-    tools:context=".ProductDetail">
+    android:background="#7bc792"
+    tools:context=".BookDetail">
 
     <ImageView
         android:id="@+id/imageView"
@@ -46,7 +46,7 @@
             android:background="@drawable/ic_cat_bg"
             android:fontFamily="@font/rubik_medium"
             android:gravity="center"
-            android:text="Body"
+            android:text="Новинка"
             android:textColor="@android:color/background_dark"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +60,7 @@
             android:background="@drawable/ic_cat_bg"
             android:fontFamily="@font/rubik_medium"
             android:gravity="center"
-            android:text="Lotion"
+            android:text="Бестселлер"
             android:textColor="@android:color/background_dark"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView7"
@@ -68,7 +68,7 @@
             app:layout_constraintTop_toTopOf="@+id/textView7" />
 
         <TextView
-            android:id="@+id/prodName"
+            android:id="@+id/bookNameDetail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -77,12 +77,12 @@
             android:text="Japanese Cherry Blossom"
             android:textColor="@android:color/background_dark"
             android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/prodPrice"
+            app:layout_constraintEnd_toStartOf="@+id/bookPriceDetail"
             app:layout_constraintStart_toStartOf="@+id/textView7"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
         <TextView
-            android:id="@+id/prodPrice"
+            android:id="@+id/bookPriceDetail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
@@ -90,29 +90,34 @@
             android:text="$ 15.00"
             android:textColor="#42995C"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/prodName"
+            app:layout_constraintBottom_toBottomOf="@+id/bookNameDetail"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/prodName" />
+            app:layout_constraintTop_toTopOf="@+id/bookNameDetail" />
 
         <TextView
-            android:id="@+id/prodDesc"
+            android:id="@+id/bookDescDetail"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:fadeScrollbars="true"
             android:fontFamily="@font/rubik"
             android:lineSpacingExtra="2dp"
             android:text="A moisturizing body with a sweet and refreshing aroma of Japanese cherry blossom, peony, musk, and strawberry. Will make the skin feel moist and smooth. The combination also makes long-lasting fragrance."
             android:textColor="@android:color/background_dark"
-            app:layout_constraintEnd_toEndOf="@+id/prodPrice"
-            app:layout_constraintStart_toStartOf="@+id/prodName"
-            app:layout_constraintTop_toBottomOf="@+id/prodName" />
+            app:layout_constraintBottom_toTopOf="@+id/button2"
+            app:layout_constraintEnd_toEndOf="@+id/bookPriceDetail"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/bookNameDetail"
+            app:layout_constraintTop_toBottomOf="@+id/bookNameDetail"
+            app:layout_constraintVertical_bias="0.0" />
 
         <ImageView
             android:id="@+id/imageView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/prodDesc"
+            app:layout_constraintStart_toStartOf="@+id/bookDescDetail"
             app:layout_constraintTop_toTopOf="@+id/button2"
             app:srcCompat="@drawable/ic_minus" />
 
@@ -156,9 +161,9 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
-        android:id="@+id/prodImage"
+        android:id="@+id/bookImageDetail"
         android:layout_width="256dp"
-        android:layout_height="447dp"
+        android:layout_height="370dp"
         android:layout_marginTop="16dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"

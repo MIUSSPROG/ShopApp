@@ -9,19 +9,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.shopapp.Model.ProductCategory;
+import com.example.shopapp.Model.BookCategory;
 import com.example.shopapp.R;
 
 import java.util.List;
 
-public class ProductCategoryAdapter extends RecyclerView.Adapter<ProductCategoryAdapter.ProductViewHolder>{
+public class BookCategoryAdapter extends RecyclerView.Adapter<BookCategoryAdapter.ProductViewHolder>{
 
     Context context;
-    List<ProductCategory> productCategoryList;
+    List<BookCategory> bookCategoryList;
 
-    public ProductCategoryAdapter(Context context, List<ProductCategory> productCategoryList) {
+    public BookCategoryAdapter(Context context, List<BookCategory> bookCategoryList) {
         this.context = context;
-        this.productCategoryList = productCategoryList;
+        this.bookCategoryList = bookCategoryList;
     }
 
     @NonNull
@@ -34,13 +34,13 @@ public class ProductCategoryAdapter extends RecyclerView.Adapter<ProductCategory
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        holder.catagoryName.setText(productCategoryList.get(position).getProductName());
+        holder.catagoryName.setText(bookCategoryList.get(position).getProductName());
     }
 
     @Override
     public int getItemCount() {
-        if(productCategoryList != null){
-            return productCategoryList.size();
+        if(bookCategoryList != null){
+            return bookCategoryList.size();
         }
         else{
             return 0;

@@ -14,7 +14,7 @@
         android:theme="@style/Theme.ShopApp">
         <activity android:name=".SignUp"></activity>
         <activity android:name=".SignIn" />
-        <activity android:name=".ProductDetail" />
+        <activity android:name=".BookDetail" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
