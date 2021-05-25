@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.shopapp.Adapter.BookAdapter;
@@ -22,7 +23,10 @@ import com.google.firebase.database.ValueEventListener;
 //import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -77,11 +81,65 @@ public class MainActivity extends AppCompatActivity {
         List<BookCategory> bookCategoryList = new ArrayList<>();
         bookCategoryList.add(new BookCategory(1, "Новинки 2020"));
         bookCategoryList.add(new BookCategory(2, "Самые популярные"));
-        bookCategoryList.add(new BookCategory(3, "Бестселлеры"));
-        bookCategoryList.add(new BookCategory(4, "Открытие 2020"));
-        bookCategoryList.add(new BookCategory(5, "Дебют"));
+        bookCategoryList.add(new BookCategory(3, "Бестселлер"));
+        bookCategoryList.add(new BookCategory(4, "Классика"));
 
-        bookCategoryAdapter = new BookCategoryAdapter(this, bookCategoryList);
+        bookCategoryAdapter = new BookCategoryAdapter(this, bookCategoryList, new BookCategoryAdapter.OnBookCategoryClickListener() {
+            @Override
+            public void onClicked(BookCategory bookCategory) {
+
+                books.clear();
+                mDatabaseRef = FirebaseDatabase.getInstance().getReference("Books");
+                mDatabaseRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                            for(DataSnapshot childSnapshot : dataSnapshot.getChildren()){
+                                Book book = childSnapshot.getValue(Book.class);
+                                if (book.getStatus().equals(bookCategory.getName())){
+                                    books.add(book);
+                                }
+                                else if(bookCategory.getName().equals("Новинки 2020")){
+                                    if(book.getYear() == 2020){
+                                        books.add(book);
+                                    }
+                                }
+                                else if (bookCategory.getName().equals("Самые популярные")){
+                                    books.add(book);
+                                }
+                            }
+                        }
+
+                        if(bookCategory.getName().equals("Самые популярные")){
+                            Collections.sort(books, new Comparator<Book>() {
+                                @Override
+                                public int compare(Book o1, Book o2) {
+                                    if( o1.getRating() < o2.getRating()){
+                                        return 1;
+                                    }
+                                    else if( o1.getRating() > o2.getRating() ) {
+                                        return -1;
+                                    }
+                                    else{
+                                        return 0;
+                                    }
+                                }
+                            });
+
+                            books = books.stream().limit(10).collect(Collectors.toList());
+                        }
+
+                        bookAdapter.setBooksList(books);
+                        bookAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+            }
+        });
+
         binding.catRecycler.setAdapter(bookCategoryAdapter);
 
         books = new ArrayList<>();
@@ -123,30 +181,30 @@ public class MainActivity extends AppCompatActivity {
     public void displayProductsByCat(String cat){
 
         binding.tvCatAdventure.setTextColor( getResources().getColor(R.color.normal_cat));
-        binding.tvCatAdventure.setTextSize(14);
+        binding.tvCatAdventure.setTextSize(11);
         binding.tvCatDetectives.setTextColor( getResources().getColor(R.color.normal_cat));
-        binding.tvCatDetectives.setTextSize(14);
+        binding.tvCatDetectives.setTextSize(11);
         binding.tvCatFiction.setTextColor( getResources().getColor(R.color.normal_cat));
-        binding.tvCatFiction.setTextSize(14);
+        binding.tvCatFiction.setTextSize(11);
         binding.tvCatNovels.setTextColor( getResources().getColor(R.color.normal_cat));
-        binding.tvCatNovels.setTextSize(14);
+        binding.tvCatNovels.setTextSize(11);
 
         switch (cat){
-            case "Приключения":
+            case "Adventure":
                 binding.tvCatAdventure.setTextColor( getResources().getColor(R.color.selected_cat));
-                binding.tvCatAdventure.setTextSize(16);
+                binding.tvCatAdventure.setTextSize(12);
                 break;
-            case "Детективы":
+            case "Detectives":
                 binding.tvCatDetectives.setTextColor( getResources().getColor(R.color.selected_cat));
-                binding.tvCatDetectives.setTextSize(16);
+                binding.tvCatDetectives.setTextSize(12);
                 break;
-            case "Фантастика":
+            case "Fiction":
                 binding.tvCatFiction.setTextColor( getResources().getColor(R.color.selected_cat));
-                binding.tvCatFiction.setTextSize(16);
+                binding.tvCatFiction.setTextSize(12);
                 break;
-            case "Романы":
+            case "Novels":
                 binding.tvCatNovels.setTextColor( getResources().getColor(R.color.selected_cat));
-                binding.tvCatNovels.setTextSize(16);
+                binding.tvCatNovels.setTextSize(12);
                 break;
         }
 
@@ -160,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
                     Book book = dataSnapshot.getValue(Book.class);
                     books.add(book);
                 }
-                bookAdapter.setProductsList(books);
+                bookAdapter.setBooksList(books);
                 bookAdapter.notifyDataSetChanged();
             }
 

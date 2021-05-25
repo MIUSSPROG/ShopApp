@@ -24,14 +24,14 @@ import java.util.List;
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ProductViewHolder> {
 
     Context context;
-    List<Book> productsList;
+    List<Book> booksList;
 
     public BookAdapter(Context context) {
         this.context = context;
     }
 
-    public void setProductsList(List<Book> productsList) {
-        this.productsList = productsList;
+    public void setBooksList(List<Book> productsList) {
+        this.booksList = productsList;
     }
 
     @NonNull
@@ -44,7 +44,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ProductViewHol
     @Override
     public void onBindViewHolder(@NonNull BookAdapter.ProductViewHolder holder, int position) {
 
-        Book book = productsList.get(position);
+        Book book = booksList.get(position);
 
         Glide.with(context)
                 .load(book.getImageURL())
@@ -55,6 +55,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ProductViewHol
         holder.bookAuthor.setText(book.getAuthor());
         holder.bookYear.setText(String.valueOf(book.getYear()));
         holder.bookPrice.setText(String.valueOf(book.getPrice()));
+        holder.bookRating.setText(String.valueOf(book.getRating()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,8 +71,8 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ProductViewHol
 
     @Override
     public int getItemCount() {
-        if(productsList != null) {
-            return productsList.size();
+        if(booksList != null) {
+            return booksList.size();
         }
         else{
             return 0;
@@ -81,7 +82,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ProductViewHol
     public static final class ProductViewHolder extends RecyclerView.ViewHolder{
 
         ImageView bookImage;
-        TextView bookAuthor, bookName, bookDesc, bookYear, bookPrice;
+        TextView bookAuthor, bookName, bookDesc, bookYear, bookPrice, bookRating;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -91,6 +92,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ProductViewHol
             bookPrice = itemView.findViewById(R.id.book_price);
             bookYear = itemView.findViewById(R.id.book_year);
             bookName = itemView.findViewById(R.id.book_name);
+            bookRating = itemView.findViewById(R.id.book_rating);
         }
     }
 }

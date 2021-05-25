@@ -18,10 +18,16 @@ public class BookCategoryAdapter extends RecyclerView.Adapter<BookCategoryAdapte
 
     Context context;
     List<BookCategory> bookCategoryList;
+    OnBookCategoryClickListener onBookCategoryClickListener;
 
-    public BookCategoryAdapter(Context context, List<BookCategory> bookCategoryList) {
+    public interface OnBookCategoryClickListener {
+        void onClicked(BookCategory bookCategory);
+    }
+
+    public BookCategoryAdapter(Context context, List<BookCategory> bookCategoryList, OnBookCategoryClickListener onBookCategoryClickListener) {
         this.context = context;
         this.bookCategoryList = bookCategoryList;
+        this.onBookCategoryClickListener = onBookCategoryClickListener;
     }
 
     @NonNull
@@ -34,7 +40,13 @@ public class BookCategoryAdapter extends RecyclerView.Adapter<BookCategoryAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        holder.catagoryName.setText(bookCategoryList.get(position).getProductName());
+        holder.catagoryName.setText(bookCategoryList.get(position).getName());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBookCategoryClickListener.onClicked(bookCategoryList.get(position));
+            }
+        });
     }
 
     @Override

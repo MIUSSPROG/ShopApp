@@ -10,17 +10,21 @@ public class Book implements Parcelable {
     Float price;
     Integer year;
     String imageURL;
+    String status;
+    Float rating;
 
     public Book() {
     }
 
-    public Book(String author, String description, String name, Float price, Integer year, String imageURL) {
+    public Book(String author, String description, String name, Float price, Integer year, String imageURL, String status, Float rating) {
         this.author = author;
         this.description = description;
         this.name = name;
         this.price = price;
         this.year = year;
         this.imageURL = imageURL;
+        this.status = status;
+        this.rating = rating;
     }
 
     protected Book(Parcel in) {
@@ -38,6 +42,12 @@ public class Book implements Parcelable {
             year = in.readInt();
         }
         imageURL = in.readString();
+        status = in.readString();
+        if (in.readByte() == 0) {
+            rating = null;
+        } else {
+            rating = in.readFloat();
+        }
     }
 
     public static final Creator<Book> CREATOR = new Creator<Book>() {
@@ -100,6 +110,22 @@ public class Book implements Parcelable {
         this.imageURL = imageURL;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Float getRating() {
+        return rating;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -123,5 +149,12 @@ public class Book implements Parcelable {
             dest.writeInt(year);
         }
         dest.writeString(imageURL);
+        dest.writeString(status);
+        if (rating == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeFloat(rating);
+        }
     }
 }

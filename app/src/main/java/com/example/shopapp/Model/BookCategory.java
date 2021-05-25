@@ -1,30 +1,30 @@
 package com.example.shopapp.Model;
 
 public class BookCategory {
-    Integer productId;
-    String productName;
+    Integer Id;
+    String Name;
 
     public BookCategory() {
     }
 
-    public BookCategory(Integer productId, String productName) {
-        this.productId = productId;
-        this.productName = productName;
+    public BookCategory(Integer id, String name) {
+        Id = id;
+        Name = name;
     }
 
-    public Integer getProductId() {
-        return productId;
+    public Integer getId() {
+        return Id;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setId(Integer id) {
+        Id = id;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getName() {
+        return Name;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setName(String name) {
+        Name = name;
     }
 }
