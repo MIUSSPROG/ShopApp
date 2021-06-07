@@ -3,10 +3,17 @@ package com.example.shopapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -20,8 +27,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 //import com.google.firebase.storage.StorageReference;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -29,7 +38,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity {
-
 
     ActivityMainBinding binding;
     BookCategoryAdapter bookCategoryAdapter;
@@ -52,12 +60,95 @@ public class MainActivity extends AppCompatActivity {
 
         if(userName.isEmpty()){
             binding.tvWelcome.append(", гость!");
+            binding.btnGoToCart.setVisibility(View.INVISIBLE);
         }
         else{
             binding.tvWelcomeSignInUp.setText("Выйти");
             binding.tvWelcome.append(", " + userName + "!");
             Glide.with(this).load(userAvatarURL).into(binding.imgvUserLogo);
+            binding.btnGoToCart.setVisibility(View.VISIBLE);
+            int cartCount = sharedPref.getAll().size()-3;
+            binding.btnGoToCart.setText( "У вас в корзине: " + String.valueOf(cartCount));
         }
+
+        binding.searchBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
+                View view = layoutInflater.inflate(R.layout.search_dialog, null);
+                AutoCompleteTextView searchInput = view.findViewById(R.id.search_input);
+
+                // ТРЕБУЕТ РЕФАКТОРИНГА!!!
+                List<String> allBooks = new ArrayList<>();
+                mDatabaseRef = FirebaseDatabase.getInstance().getReference("Books");
+                mDatabaseRef.addValueEventListener(new ValueEventListener() {
+                   @Override
+                   public void onDataChange(@NonNull DataSnapshot snapshot) {
+                       for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                           for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                               Book book = childSnapshot.getValue(Book.class);
+                               allBooks.add(book.getName());
+                           }
+                       }
+
+                       searchInput.setAdapter(new ArrayAdapter(MainActivity.this,
+                               android.R.layout.simple_dropdown_item_1line, allBooks));
+                   }
+
+                   @Override
+                   public void onCancelled(@NonNull DatabaseError error) {
+
+                   }
+               });
+
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                alertDialogBuilder.setView(view);
+                alertDialogBuilder.setTitle("Поиск");
+                alertDialogBuilder.setPositiveButton("Выбрать", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ArrayList<Book> searchedBook = new ArrayList<>();
+
+                        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Books");
+                        mDatabaseRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                Boolean isFound = false;
+                                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                    for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                                        Book book = childSnapshot.getValue(Book.class);
+                                        if(book.getName().equals(searchInput.getText().toString())){
+                                            searchedBook.add(book);
+                                            bookAdapter.setBooksList(searchedBook);
+                                            bookAdapter.notifyDataSetChanged();
+                                            isFound = true;
+                                            break;
+                                        }
+                                    }
+                                    if(isFound){
+                                        break;
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+                        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.black));
+                    }
+                });
+                alertDialog.show();
+            }
+        });
 
         binding.tvWelcomeSignInUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,6 +264,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 displayProductsByCat("Adventure");
+            }
+        });
+
+
+        List<Book> booksInCart = new ArrayList<>();
+        binding.btnGoToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int countRecords = sharedPref.getAll().size();
+                Gson gson = new Gson();
+                for (int i=1; i<countRecords-2; i++){
+                    String bookJson = sharedPref.getString("bookJson" + String.valueOf(i), "");
+                    Book book = gson.fromJson(bookJson, Book.class);
+                    booksInCart.add(book);
+                }
             }
         });
 

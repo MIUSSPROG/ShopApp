@@ -8,7 +8,7 @@
     tools:context=".BookDetail">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/searchBook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -105,7 +105,7 @@
             android:lineSpacingExtra="2dp"
             android:text="A moisturizing body with a sweet and refreshing aroma of Japanese cherry blossom, peony, musk, and strawberry. Will make the skin feel moist and smooth. The combination also makes long-lasting fragrance."
             android:textColor="@android:color/background_dark"
-            app:layout_constraintBottom_toTopOf="@+id/button2"
+            app:layout_constraintBottom_toTopOf="@+id/btnAddToCart"
             app:layout_constraintEnd_toEndOf="@+id/bookPriceDetail"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/bookNameDetail"
@@ -118,7 +118,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/bookDescDetail"
-            app:layout_constraintTop_toTopOf="@+id/button2"
+            app:layout_constraintTop_toTopOf="@+id/btnAddToCart"
             app:srcCompat="@drawable/ic_minus" />
 
         <TextView
@@ -145,7 +145,7 @@
             app:srcCompat="@drawable/ic_plus" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btnAddToCart"
             android:layout_width="180dp"
             android:layout_height="80dp"
             android:background="@drawable/detail_page_cart_button_bg"

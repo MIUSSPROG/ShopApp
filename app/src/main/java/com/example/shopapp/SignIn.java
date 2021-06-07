@@ -66,6 +66,7 @@ public class SignIn extends AppCompatActivity {
                                             Upload upload = snapshot.getValue(Upload.class);
                                             sharedPref = getSharedPreferences("userInfo", MODE_PRIVATE);
                                             SharedPreferences.Editor editor = sharedPref.edit();
+                                            editor.putString("userId", auth.getUid());
                                             editor.putString("name", upload.getName());
                                             editor.putString("imageURL", upload.getUserAvatarUrl());
                                             editor.apply();
